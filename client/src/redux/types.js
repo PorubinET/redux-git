@@ -1,0 +1,20 @@
+export const TASK_TEXT = 'TASK_TEXT';
+export const TASK_LOAD = 'TASK_LOAD';
+export const TASK_CREATE = 'TASK_CREATE';
+export const TASK_UPDATE = 'TASK_UPDATE';
+export const TASK_FILTER = 'TASK_FILTER';
+export const TASK_FILTER_STATUS = 'TASK_FILTER_STATUS';
+
+export const TASK_DELETE = 'TASK_DELETE';
+export const TASK_COMPLETED = "TASK_COMPLETED";
+export const TASK_DELETE_ALL = 'TASK_DELETE_ALL';
+export const TASK_UPDATE_CHECK = 'TASK_UPDATE_CHECK';
+export const TASK_COMPLETED_ALL = 'TASK_COMPLETED_ALL';
+
+
+
+// export const LOADER_DISPLAY_ON = 'LOADER_DISPLAY_ON';
+// export const LOADER_DISPLAY_OFF = 'LOADER_DISPLAY_OFF';
+
+// export const ERROR_DISPLAY_ON = 'ERROR_DISPLAY_ON';
+// export const ERROR_DISPLAY_OFF = 'ERROR_DISPLAY_OFF';

@@ -47,7 +47,6 @@
     }
     .to-do__text{
         margin-left: 40px;
-        font-size: 20px;
         border: 2px solid transparent;
         outline: none;
         transition: all .4s;
@@ -55,6 +54,9 @@
         position: relative;
         top: 22px;
         width: 80%;
+        font-size: 20px;
+        color: #000;
+        font-family: 'Roboto';
     }
     .to-do__text:focus{outline:none;}
 
@@ -97,4 +99,6 @@
     .to-do__list-li:hover .to-do__checkbox-btn{
         opacity: 1;
     }
-
+    .xuita{
+        opacity: 0;
+    }

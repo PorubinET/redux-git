@@ -7,9 +7,9 @@ import './taskItem.css';
 
 
 function TaskItem(props) {
+    let [mode, setMode] = useState(false);
     const [input, setInput] = useState('')
     const { task, id, done } = props
-
     const dispatch = useDispatch();  
     const tasks = useSelector(state => {
         const { itemsReducer } = state;
@@ -26,21 +26,6 @@ function TaskItem(props) {
     const handleInput = (e) => { setInput(e.target.value = e.target.value.replace(/ +/g, ' ')) }
 
     // обновление инпута и отправка на сервер
-    const handleUpdateInput = async (e) => {
-        e.preventDefault();
-        if (!input) {
-            setInput(e.target.value = props.task);
-        }
-        else {
-            try {
-                setInput({ input: task.trim() });
-            } catch (error) {
-                console.log(error);
-            }
-            dispatch(inputUpdate(input, id, done))
-        }
-    };
-
     const handleCheck = (e) => {
         e.preventDefault();
         try {
@@ -55,19 +40,50 @@ function TaskItem(props) {
     }
 
     // взаимодействие с css
-    const onFocus = (e) => { e.currentTarget.classList.add("to-do__text-active") }
-    const removeAttribute = (e) => { e.currentTarget.removeAttribute("readonly", "true") }
-    const onBlur = (e) => { 
-        e.currentTarget.classList.remove("to-do__text-active")
-        e.currentTarget.setAttribute("readonly", "true") 
+    const removeAttribute = (e) => { 
+        e.currentTarget.removeAttribute("readonly", "true") 
     }
+    const onBlur = (e) => { 
+        e.preventDefault();
+        handleUpdateInput(e)
+        setMode(false)
+        e.currentTarget.classList.remove("to-do__text-active")
+    }
+    const onFocus = (e) => {
+        handleUpdateInput(e)
+        e.currentTarget.classList.add("to-do__text-active")
+        console.log('onFocus')
+    }
+
     const handleKeyDown = (e) => {
         if (e.keyCode === 13) {
             handleUpdateInput(e)
+            setMode(false)
             e.currentTarget.setAttribute("readonly", "true")
             e.currentTarget.classList.remove("to-do__text-active");
         }
     }
+    const modeUpdateTrue = (e) => {
+        console.log("modeUpdateTrue")
+        e.preventDefault();
+        setMode(true)
+    }
+
+    const handleUpdateInput = async (e) => {
+        e.preventDefault();
+        if (!input || input === " ") {
+            setInput(e.target.value = props.task);
+        }
+        else {
+            try {
+                console.log(task, 'task')
+                setInput(task);
+            } catch (error) {
+                console.log(error);
+            }
+            dispatch(inputUpdate(input, id, done))
+        }
+    };
 
     let classDone, classCheck, classActive;
     if (done) {
@@ -86,7 +102,7 @@ function TaskItem(props) {
         }
     }, [task])
 
-    return (
+    return(
         <li className="to-do__list-li">
             <label
                 className={classCheck}
@@ -103,25 +119,40 @@ function TaskItem(props) {
                 src="/img/check.svg"
                 alt="check"
             />
-            <input
-                type="text"
-                readOnly={true}
-                className={classDone}
-                onKeyDown={handleKeyDown}
-                onFocus={onFocus}
-                onBlur={onBlur}
-                onDoubleClick={removeAttribute}
-                onChange={handleInput}
-                defaultValue={task}
-                id={id}
-            />
-            <button className="to-do__checkbox-btn"
-                onClick={handleDelete}
-            >
-                <img className="to-do__checkbox-cross" src="/img/cross.svg" alt="delete" />
-            </button>
+            <div className="div">
+            {mode ? 
+                <>  
+                <input
+                    type="text"
+                    autoFocus
+                    className={classDone}
+                    onBlur={onBlur}
+                    onFocus={onFocus}
+                    onKeyDown={handleKeyDown}                
+                    onDoubleClick={removeAttribute}
+                    onChange={handleInput}
+                    defaultValue={task}
+                    id={id}  
+                /> 
+                </> 
+                :
+                <>
+                <div
+                    type="text"
+                    readOnly
+                    className={classDone}
+                    onDoubleClick={modeUpdateTrue}
+                    id={id}
+                >
+                    {task}
+                </div> 
+                <button className="to-do__checkbox-btn" onClick={handleDelete}>
+                    <img className="to-do__checkbox-cross" src="/img/cross.svg" alt="delete"/>
+                </button>
+                </>}              
+            </div> 
         </li>
-    )
+        )
 }
 
 

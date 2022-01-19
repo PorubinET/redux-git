@@ -98,7 +98,7 @@ function TaskInput() {
             <ul >
                 {tasks.map((task) => (
                     <TaskItem
-                        task={task.text}
+                        task={task.task}
                         done={task.done}
                         key={task.id}
                         id={task.id}

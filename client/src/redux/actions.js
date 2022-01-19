@@ -1,10 +1,9 @@
 import {
-    TASK_LOAD,
-    TASK_CREATE,
-    TASK_UPDATE,
-    TASK_FILTER,
+    LOAD_TASK,
+    CREATE_TASK,
+    FILTER_TASK,
+    DELETE_TASK,
     TASK_DELETE,
-    TASK_DELETE_ALL,
     TASK_COMPLETED,
     TASK_COMPLETED_ALL,
     TASK_UPDATE_CHECK
@@ -23,11 +22,11 @@ export function taskCreate() {
     return async dispatch => {
         const datadb = await getTasks() /// use create 
         const lastTask = datadb.data[datadb.data.length - 1];//
-        const id = lastTask._id, text = lastTask.task, done = lastTask.done;// get from response
+        const id = lastTask._id, task = lastTask.task, done = lastTask.done;// get from response
         try {
             dispatch({
-                type: TASK_CREATE,
-                data: {done, id, text} // use payload
+                type: CREATE_TASK,
+                data: {done, id, task} // use payload
             }); 
         } catch (error) {
             console.log(error);
@@ -35,14 +34,14 @@ export function taskCreate() {
     }
 }
 
-export function inputUpdate(text, id, done) {
-    console.log(true, 'actions')
+export function inputUpdate(task, id, done) {
+    console.log(task, 'inputUpdate')
     return async dispatch => {
         try {
-            await updateTask(id, { task: text.trim()})
+            await updateTask(id, { task: task})
             dispatch({
-                type: TASK_UPDATE,
-                data: { text, id, done}
+                type: TASK_COMPLETED,
+                data: { task, id, done}
             });
         } catch (error) {
             console.log(error);
@@ -76,7 +75,7 @@ export function inputDelete(id) {
         try {
             await deleteTask(id);
             dispatch({
-                type: TASK_DELETE,
+                type: DELETE_TASK,
                 id
             });
         } catch (error) {
@@ -122,7 +121,7 @@ export function filterUpdate(filt){
         try {
             const response = await getTasks()
             dispatch({
-                type: TASK_FILTER,
+                type: FILTER_TASK,
                 data: response.data, 
                 filt
             });
@@ -137,7 +136,7 @@ export function inputLoad() {
         try {
             const response = await getTasks()
                 dispatch({
-                    type: TASK_LOAD,
+                    type: LOAD_TASK,
                     data: response.data
                 });
         } catch (error) {

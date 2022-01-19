@@ -71,9 +71,7 @@ function Footer() {
         return (
             <div className="to-do__board">
                 <p className="to-do__board-list-items">
-                    {falseItems}
-                    item
-                    {checkS}
+                    {falseItems} item{checkS}
                 </p>
                 <ul className="to-do__board-check">
                     <li className="to-do__board-li">
